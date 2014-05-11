@@ -87,8 +87,11 @@ EOF
 	mke2fs -O dir_index,^resize_inode -L Boot -F $boot_loop
 	mount $boot_loop $BOOT
 
+    local root_start=$(($ROOT_PARTITION_START_BLOCK * $BLOCK_SIZE))
+    local root_size=$(($image_size - $image_start))
+
     root_loop=$(losetup -f)
-    losetup $root_loop $img -o 67108864
+    losetup $root_loop $img -o $root_start --sizelimit $root_size
 
 	mkfs.ext4 -O dir_index,^huge_file -E resize=8G -m1 -L OLPCRoot $root_loop
 	tune2fs -o journal_data_ordered $root_loop
