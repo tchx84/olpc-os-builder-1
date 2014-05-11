@@ -388,7 +388,8 @@ class OsBuilder(object):
         if clean_intermediates and os.path.exists(self.intermediatesdir):
             shutil.rmtree(self.intermediatesdir)
         if clean_output and os.path.exists(self.outputdir):
-            shutil.rmtree(self.outputdir)
+            if os.listdir(self.outputdir):
+                shutil.rmtree(self.outputdir)
 
         self.cacheonly = cacheonly
         if cacheonly and not os.path.exists(self.cachedir):
