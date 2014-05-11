@@ -88,7 +88,7 @@ EOF
 	mount $boot_loop $BOOT
 
     local root_start=$(($ROOT_PARTITION_START_BLOCK * $BLOCK_SIZE))
-    local root_size=$(($image_size - $image_start))
+    local root_size=$(($image_size - $root_start))
 
     root_loop=$(losetup -f)
     losetup $root_loop $img -o $root_start --sizelimit $root_size
